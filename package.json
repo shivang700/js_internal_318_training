@@ -1,0 +1,21 @@
+{
+  "name": "js_internal_318_traininng",
+  "version": "1.0.0",
+  "description": "my HCL training Repo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivang700/js_internal_318_traininng.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/shivang700/js_internal_318_traininng/issues"
+  },
+  "homepage": "https://github.com/shivang700/js_internal_318_traininng#readme"
+}
