@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HCL ASSESSEMENT - Result</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-1: #0b0f1a;
+      --bg-2: #081426;
+      --accent-neon: #00ffd5;
+      --accent-magenta: #ff2d95;
+      --neon-green: #00ff66;
+      --muted: #b8c0d4;
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; font-family:"Poppins","Orbitron",sans-serif; }
+
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:
+        radial-gradient(600px 300px at 10% 20%, rgba(138,43,226,0.06), transparent 10%),
+        radial-gradient(600px 300px at 90% 80%, rgba(255,45,149,0.04), transparent 10%),
+        linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:var(--muted);
+      padding:28px;
+    }
+
+    /* subtle scanlines */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image: linear-gradient(transparent 92%, rgba(255,255,255,0.013) 100%);
+      background-size:100% 6px;
+      mix-blend-mode:overlay;
+      opacity:0.95;
+    }
+
+    .card{
+      width:100%;
+      max-width:540px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:14px;
+      padding:26px;
+      box-shadow: 0 30px 80px rgba(2,6,23,0.75);
+      border:1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(8px);
+      position:relative;
+      overflow:hidden;
+      animation: lift .55s ease both;
+    }
+
+    @keyframes lift{
+      from{ transform: translateY(18px); opacity:0; }
+      to{ transform: translateY(0); opacity:1; }
+    }
+
+    .success{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      color:var(--neon-green);
+      font-weight:700;
+      font-size:22px;
+      font-family:"Orbitron",sans-serif;
+      text-shadow:
+        0 0 10px rgba(0,255,102,0.18),
+        0 0 28px rgba(0,255,102,0.08);
+      margin-bottom:12px;
+    }
+
+    .subtitle{
+      text-align:center;
+      color:rgba(232,238,248,0.7);
+      font-size:13px;
+      margin-bottom:16px;
+    }
+
+    .info{
+      margin-top:6px;
+      display:grid;
+      gap:10px;
+    }
+
+    .info p{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 14px;
+      border-radius:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.02);
+      color:#e8eef8;
+      font-size:14px;
+    }
+
+    .info b{ color:var(--muted); font-weight:600; letter-spacing:0.2px; }
+    .info span{ color:#e8eef8; font-weight:600; }
+
+    .actions{
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .btn{
+      padding:10px 22px;
+      border-radius:999px;
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+      letter-spacing:0.6px;
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+
+    .btn-primary{
+      background: linear-gradient(90deg, var(--accent-neon), var(--accent-magenta));
+      color:#07121a;
+      box-shadow: 0 12px 40px rgba(0,255,213,0.06), 0 0 40px rgba(255,45,149,0.05);
+    }
+
+    .btn-secondary{
+      background: transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--muted);
+    }
+
+    .btn:hover{ transform: translateY(-4px); }
+    .btn-primary:hover{ box-shadow: 0 18px 60px rgba(0,255,213,0.09); }
+
+    /* responsive */
+    @media (max-width:480px){
+      .card{ padding:18px; border-radius:12px; }
+      .success{ font-size:18px; gap:8px; }
+      .info p{ font-size:13px; padding:10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" role="region" aria-label="Registration result">
+    <div class="success">🎉 <span>Registration Successful!</span></div>
+    <div class="subtitle">Thanks — your details have been recorded.</div>
+
+    <div class="info" id="info">
+      <p><b>Name</b> <span id="name">—</span></p>
+      <p><b>Email</b> <span id="email">—</span></p>
+      <p><b>Gender</b> <span id="gender">—</span></p>
+      <p><b>Course</b> <span id="course">—</span></p>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="homeBtn" title="Go back to home">Go to Home</button>
+      <button class="btn btn-secondary" id="clearBtn" title="Clear stored data">Clear Data</button>
+    </div>
+  </div>
+
+  <script>
+    // Fill fields from localStorage, fallback to "—" if missing/empty
+    const show = (id, key) => {
+      const el = document.getElementById(id);
+      const v = localStorage.getItem(key);
+      el.textContent = (v && v.trim().length) ? v : '—';
+    };
+
+    show('name','name');
+    show('email','email');
+    show('gender','gender');
+    show('course','course');
+
+    document.getElementById('homeBtn').addEventListener('click', () => {
+      // go to home.html (matches your earlier file). Adjust if your filename is different.
+      window.location.href = 'home.html';
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      localStorage.removeItem('name');
+      localStorage.removeItem('email');
+      localStorage.removeItem('gender');
+      localStorage.removeItem('course');
+      // reflect cleared state immediately
+      show('name','name');
+      show('email','email');
+      show('gender','gender');
+      show('course','course');
+      // small visual feedback
+      const btn = document.getElementById('clearBtn');
+      btn.textContent = 'Cleared';
+      setTimeout(() => btn.textContent = 'Clear Data', 1400);
+    });
+  </script>
+
+</body>
+</html>

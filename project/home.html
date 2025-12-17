@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HCL ASSESSEMENT</title>
+
+<!-- Optional font (keeps the cyberpunk look). If offline, fallback to Poppins/sans-serif -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg-1: #0b0f1a;
+    --bg-2: #081426;
+    --accent-neon: #00ffd5;
+    --accent-magenta: #ff2d95;
+    --accent-purple: #8a2be2;
+    --card-bg: rgba(10,12,20,0.6);
+    --glass: rgba(255,255,255,0.04);
+    --glass-2: rgba(255,255,255,0.02);
+    --muted: #b8c0d4;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; font-family: "Poppins", "Orbitron", sans-serif; }
+
+  /* ===== BODY ===== */
+  body{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:
+      radial-gradient(800px 400px at 10% 10%, rgba(138,43,226,0.12), transparent 10%),
+      radial-gradient(800px 400px at 90% 90%, rgba(255,45,149,0.08), transparent 10%),
+      linear-gradient(180deg,var(--bg-1), var(--bg-2));
+    color:var(--muted);
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* subtle animated scanlines */
+  body::before{
+    content:"";
+    position: absolute;
+    inset:0;
+    background-image: linear-gradient(transparent 92%, rgba(255,255,255,0.015) 100%);
+    background-size: 100% 6px;
+    pointer-events:none;
+    mix-blend-mode:overlay;
+    opacity:0.9;
+  }
+
+  /* ===== HEADER ===== */
+  header{
+    margin:20px auto;
+    max-width:1100px;
+    width:calc(100% - 40px);
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.04);
+    padding:18px 22px;
+    text-align:center;
+    border-radius:14px;
+    box-shadow: 0 10px 40px rgba(2,6,23,0.6), 0 0 18px rgba(138,43,226,0.06) inset;
+    position:relative;
+    backdrop-filter: blur(6px);
+  }
+
+  header h1{
+    margin-bottom:8px;
+    font-size:28px;
+    letter-spacing:2px;
+    color: white;
+    font-family: "Orbitron", "Poppins", sans-serif;
+    text-transform:uppercase;
+    text-shadow:
+      0 0 8px rgba(0,255,213,0.14),
+      0 0 18px rgba(255,45,149,0.06);
+  }
+
+  /* neon underline accent */
+  header::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:-10px;
+    width:220px;
+    height:4px;
+    border-radius:8px;
+    background: linear-gradient(90deg, var(--accent-neon), var(--accent-magenta));
+    filter: blur(8px);
+    opacity:0.9;
+  }
+
+  /* ===== NAV ===== */
+  nav{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:8px;
+    flex-wrap:wrap;
+  }
+
+  nav a{
+    text-decoration:none;
+    color:var(--muted);
+    font-weight:500;
+    position:relative;
+    padding:8px 10px;
+    border-radius:6px;
+    transition: all 0.25s ease;
+    font-size:14px;
+  }
+
+  nav a::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%) scaleX(0);
+    bottom:2px;
+    width:70%;
+    height:3px;
+    border-radius:3px;
+    background: linear-gradient(90deg, var(--accent-neon), var(--accent-magenta));
+    transform-origin:center;
+    transition: transform 0.28s cubic-bezier(.2,.9,.2,1);
+    box-shadow:0 0 18px rgba(0,255,213,0.12), 0 0 28px rgba(255,45,149,0.06);
+  }
+
+  nav a:hover{
+    color: white;
+    transform: translateY(-3px);
+  }
+  nav a:hover::after{ transform: translateX(-50%) scaleX(1); }
+
+  /* ===== MAIN SECTION ===== */
+  .main{
+    flex:1;
+    display:flex;
+    gap:22px;
+    padding:30px;
+    max-width:1100px;
+    width:calc(100% - 40px);
+    margin:20px auto;
+  }
+
+  /* ===== CARD COMMON ===== */
+  .card{
+    flex:1;
+    background: linear-gradient(180deg, rgba(6,8,16,0.6), rgba(10,12,20,0.6));
+    border-radius:14px;
+    padding:20px;
+    box-shadow:
+      0 18px 40px rgba(2,6,23,0.6),
+      0 0 28px rgba(138,43,226,0.03) inset;
+    border: 1px solid rgba(255,255,255,0.03);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    backdrop-filter: blur(6px);
+    position:relative;
+    overflow:hidden;
+  }
+
+  .card:hover{
+    transform: translateY(-8px);
+    box-shadow:
+      0 40px 80px rgba(2,6,23,0.75),
+      0 0 36px rgba(138,43,226,0.08) inset;
+  }
+
+  /* neon corner lines */
+  .card::before, .card::after{
+    content:"";
+    position:absolute;
+    pointer-events:none;
+  }
+  .card::before{
+    top:8px; left:10px; right:10px;
+    height:2px;
+    background: linear-gradient(90deg, transparent, rgba(0,255,213,0.07), transparent);
+    filter: blur(6px);
+  }
+  .card::after{
+    bottom:8px; left:10px; right:10px;
+    height:1px;
+    background: linear-gradient(90deg, transparent, rgba(255,45,149,0.03), transparent);
+  }
+
+  /* ===== LEFT CARD ===== */
+  .left-card{
+    text-align:left;
+    line-height:1.8;
+    font-size:14px;
+    color:var(--muted);
+  }
+  .left-card p{
+    padding:8px 12px;
+    border-radius:8px;
+    margin-bottom:8px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+    border:1px solid rgba(255,255,255,0.02);
+  }
+
+  /* ===== CENTER CARD ===== */
+  .center-card h3{
+    text-align:center;
+    margin-bottom:12px;
+    color:white;
+    font-family: "Orbitron", sans-serif;
+    letter-spacing:1px;
+    text-shadow: 0 0 8px rgba(138,43,226,0.12);
+  }
+
+  marquee{
+    height:220px;
+    font-size:14px;
+    color:var(--muted);
+  }
+
+  /* ===== LOGIN CARD ===== */
+  .login-card h3{
+    text-align:center;
+    margin-bottom:14px;
+    color:white;
+    font-family: "Orbitron", sans-serif;
+    letter-spacing:1px;
+  }
+
+  table{ width:100%; }
+
+  td{ padding:8px 6px; font-size:14px; vertical-align:middle; color:var(--muted); }
+
+  input, select {
+    width:100%;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    color: #e8eef8;
+    transition: box-shadow 0.22s ease, border-color 0.22s ease, transform 0.12s ease;
+    outline:none;
+    font-size:14px;
+  }
+
+  input::placeholder{ color: rgba(232,238,248,0.42); }
+
+  input:focus, select:focus{
+    border-color: rgba(0,255,213,0.6);
+    box-shadow: 0 0 18px rgba(0,255,213,0.06), 0 0 36px rgba(138,43,226,0.04);
+    transform: translateY(-2px);
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn-row{ text-align:center; margin-top:12px; }
+  button{
+    padding:10px 22px;
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+    font-size:14px;
+    margin:6px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    letter-spacing:0.6px;
+    font-weight:600;
+  }
+
+  button[type="submit"]{
+    background: linear-gradient(90deg, var(--accent-neon), var(--accent-magenta));
+    color:#07121a;
+    box-shadow: 0 8px 30px rgba(0,255,213,0.08), 0 0 40px rgba(255,45,149,0.06);
+  }
+
+  button[type="reset"]{
+    background: transparent;
+    border:1px solid rgba(255,255,255,0.06);
+    color:var(--muted);
+  }
+
+  button:hover{ transform: translateY(-4px) scale(1.02); }
+
+  /* ===== ERROR ===== */
+  .error{
+    color:#ff6b6b;
+    font-size:12px;
+    display:none;
+  }
+
+  /* ===== SIGNUP LINK ===== */
+  .signup{
+    display:block;
+    margin-top:16px;
+    text-align:center;
+    font-weight:600;
+    text-decoration:none;
+    color:var(--accent-neon);
+    letter-spacing:0.6px;
+  }
+  .signup:hover{ color:var(--accent-magenta); text-shadow: 0 0 8px rgba(255,45,149,0.08); }
+
+  /* Responsive */
+  @media (max-width:900px){
+    .main{ flex-direction:column; padding:20px; gap:16px; }
+    header{ padding:14px; border-radius:12px; }
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>HCL ASSESSEMENT</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Gallery</a>
+    <a href="#">Menu3</a>
+    <a href="#">Menu4</a>
+    <a href="#">Menu5</a>
+    <a href="#">Menu6</a>
+  </nav>
+</header>
+
+<section class="main">
+
+  <!-- LEFT -->
+  <div class="card left-card">
+    <p>Text 1</p>
+    <p>Text 2</p>
+    <p>Text 3</p>
+    <p>Text 4</p>
+    <p>Text 5</p>
+    <p>Text 6</p>
+  </div>
+
+  <!-- CENTER -->
+  <div class="card center-card">
+    <h3>Important Notices</h3>
+    <marquee direction="up" onmouseover="stop()" onmouseout="start()">
+      Notice 1<br>
+      Notice 2<br>
+      Notice 3<br>
+      Notice 4<br>
+      Notice 5<br>
+      Notice 6<br>
+      Notice 7<br>
+    </marquee>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="card login-card">
+    <h3>Login</h3>
+    <form id="loginForm">
+      <table>
+        <tr>
+          <td style="width:34%;">Username</td>
+          <td>
+            <input id="username" type="text" placeholder="Enter username">
+            <span id="userError" class="error">Username is required</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Password</td>
+          <td>
+            <input id="password" type="password" placeholder="Enter password">
+            <span id="passError" class="error">Password is required</span>
+          </td>
+        </tr>
+      </table>
+
+      <div class="btn-row">
+        <button type="submit">Submit</button>
+        <button type="reset">Cancel</button>
+      </div>
+    </form>
+
+    <a class="signup" href="reg.html">New User / Signup</a>
+  </div>
+
+</section>
+
+<script>
+  (function(){
+    const form = document.getElementById('loginForm');
+    const userInput = document.getElementById('username');
+    const passInput = document.getElementById('password');
+    const userError = document.getElementById('userError');
+    const passError = document.getElementById('passError');
+
+    function show(el){ el.style.display = 'inline'; }
+    function hide(el){ el.style.display = 'none'; }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      let ok = true;
+
+      if(!userInput.value.trim()){ show(userError); ok=false; } else hide(userError);
+      if(!passInput.value.trim()){ show(passError); ok=false; } else hide(passError);
+
+      if(ok){
+        const params = new URLSearchParams({
+          user:userInput.value,
+          pass:passInput.value
+        });
+        window.location.href = 'reg.html?' + params.toString();
+      }
+    });
+
+    userInput.addEventListener('input',()=>hide(userError));
+    passInput.addEventListener('input',()=>hide(passError));
+  })();
+</script>
+
+</body>
+</html>
