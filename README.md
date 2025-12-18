@@ -1,2 +1,2 @@
-# js_internal_318_traininng
+# js_internal_318_training
 my HCL training Repo
